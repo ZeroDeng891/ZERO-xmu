@@ -1,26 +1,36 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
-/* 学习Y总的KMP算法模板 */
-int N = 10010;
-int M = 10010;
 int main(){
-    int n, m;
-    char p[N], s[M];
-    cin >> n >> p + 1 >> m >> s + 1;
-    int ne[n + 1];
-    ne[0] = ne[1] = 0;
-    for(int i = 2, j = 0; i <= n; i ++){
+    string os, op;
+    cin >> os >> op;
+    int n = os.size(), m = op.size();
+    char s[n + 1], p[m + 1];
+    int ne[m + 1] = {0};
+    for(int i = 1; i <= n; i ++){
+        s[i] = os[i - 1];
+    }
+    for(int i = 1; i <= m; i ++){
+        p[i] = op[i - 1];
+    }
+    vector<int> oc;
+    for(int i = 2, j = 0; i <= m; i ++){
         while(j && p[i] != p[j + 1]) j = ne[j];
         if(p[i] == p[j + 1]) j ++;
         ne[i] = j;
     }
-    for(int i = 1, j = 0; i <= m; i ++){
+    for(int i = 1, j = 0; i <= n; i ++){
         while(j && s[i] != p[j + 1]) j = ne[j];
         if(s[i] == p[j + 1]) j ++;
-        if(j == n){
+        if(j == m){
             j = ne[j];
-            cout << i - n << ' ';
+            oc.push_back(i - m + 1);
         }
+    }
+    for(int i = 0; i < oc.size(); i ++)
+        cout << oc[i] << endl;
+    for(int i = 1; i <= m; i ++){
+        if(i > 1) cout << ' ';
+        cout << ne[i];
     }
     return 0;
 }
